@@ -19,7 +19,7 @@ movies_reviews <- read.csv('movies_data.csv')
 
 
 # Transform the target reviews to corpus
-movies_reviews_corpus <- Corpus(VectorSource(movies_reviews$review.text))
+movies_reviews_corpus <- VCorpus(VectorSource(movies_reviews$review.text))
 # Change to lower case
 movies_reviews_corpus <- tm_map(movies_reviews_corpus,
                                    content_transformer(tolower))
@@ -57,10 +57,10 @@ findFreqTerms(movies_reviews_dtm, 1000)
 # tf-idf base
 movies_reviews_dtm_tfidf <- DocumentTermMatrix(movies_reviews_corpus,
                                         control = list(weighting = weightTfIdf))
-movies_reviews_dtm_tfidf <- removeSparseTerms(movies_reviews_dtm_tfidf, 0.995)
+movies_reviews_dtm_tfidf <- removeSparseTerms(movies_reviews_dtm_tfidf, 0.99)
 movies_reviews_dtm_tfidf
 
-inspect(movies_reviews_dtm_tfidf[2, 1:20])
+inspect(movies_reviews_dtm_tfidf[1, 1:20])
 
 # Obtain binary variable
 movies_reviews <- movies_reviews %>% 
@@ -69,7 +69,7 @@ movies_reviews <- movies_reviews %>%
 # Change tibble to dataframe
 data <- as.data.frame(movies_reviews)
 data <- data[-c(1:10)]
-data <- cbind(data, as.matrix(movies_reviews_dtm))
+#data <- cbind(data, as.matrix(movies_reviews_dtm_tfidf))
 
 # Split training and test data
 split_data <- function(data) {
@@ -82,6 +82,31 @@ split_data <- function(data) {
   return(list(data_train, data_test))
 }
 
-data_total <- split_data(data)
+# data_total <- split_data(data)
+# data_train <- data_total[[1]]
+# data_test <- data_total[[2]]
+
+
+# Use Bigram
+BigramTokenizer <- function(x) {
+    unlist(lapply(ngrams(words(x), 1:2), paste, collapse = " "), use.names = FALSE)
+}
+
+tdm <- DocumentTermMatrix(movies_reviews_corpus, control = list(tokenize = BigramTokenizer,
+                                                                weighting = weightTfIdf))
+inspect(tdm)
+tdm <- removeSparseTerms(tdm, 0.998)
+inspect(tdm)
+inspect(tdm[1, 1:10])
+
+data_bigram <- cbind(data, as.matrix(tdm))
+
+# Split training and test data
+data_total <- split_data(data_bigram)
 data_train <- data_total[[1]]
 data_test <- data_total[[2]]
+
+
+
+
+
