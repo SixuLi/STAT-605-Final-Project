@@ -23,3 +23,15 @@ By implemented methods above with our training dataset provided by previous step
 
 ### Findings
 
+We finally found several word collocations associated with positive/negative review. Here is a image illustrating our findings. 
+
+- story told, excellent job, along way, dog soldiers, fall love, highly recommend, well worth are associated with positive reviews
+- needless say, two hours, sounds like, pretty bad, get wrong, waste money, bad movie, car chase, really wanted, seemed like, way much, new version, save money one worst are associated with negative reviews.
+
+![Top 30 positive and negative words](C:\Users\KOU\School\STAT-605-Final-Project\Image\Top 30 positive and negative words.png)
+
+We found that some words are seemed positive by ourselves but they are associated with negative reviews, which is interesting. And we also found some collocations do not make any sense. It may due to the process of using our corpus.
+
+### Conclusion
+
+To draw our conclusion, in this project, a textual dataset with about 35 million reviews from Amazon  with a time span from June 1995 to March 2013 is analyzed. By cleaning the data and reducing the dimension, performing the DTM procedure, we obtained our word matrix as our explanatory matrix. We built two-word collocation as our variables and performing the lasso logistic regression, finally build our result: the words collection associated with positive/negative reviews. We found that some words are representing adverse attitude compared to our expectation. Further analyses need to be taken.
