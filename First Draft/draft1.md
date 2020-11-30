@@ -28,7 +28,7 @@ We finally found several word collocations associated with positive/negative rev
 - story told, excellent job, along way, dog soldiers, fall love, highly recommend, well worth are associated with positive reviews
 - needless say, two hours, sounds like, pretty bad, get wrong, waste money, bad movie, car chase, really wanted, seemed like, way much, new version, save money one worst are associated with negative reviews.
 
-![Top 30 positive and negative words](C:\Users\KOU\School\STAT-605-Final-Project\Image\Top 30 positive and negative words.png)
+![Top 30 positive and negative words](..\Image\Top 30 positive and negative words.png)
 
 We found that some words are seemed positive by ourselves but they are associated with negative reviews, which is interesting. And we also found some collocations do not make any sense. It may due to the process of using our corpus.
 
