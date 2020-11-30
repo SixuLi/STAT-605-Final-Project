@@ -1,0 +1,76 @@
+\documentclass[12pt]{article}
+\usepackage{tabularx} % extra features for tabular environment
+\usepackage{amsmath}  % improve math presentation
+\usepackage{graphicx} % takes care of graphic including machinery
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage[margin=1in]{geometry} % decreases margins
+\usepackage{cite} % takes care of citations
+%\usepackage{cleveref}
+\usepackage[final]{hyperref} % adds hyper links inside the generated pdf file
+\hypersetup{
+	colorlinks=true,       % false: boxed links; true: colored links
+	linkcolor=blue,        % color of internal links
+	citecolor=blue,        % color of links to bibliography
+	filecolor=magenta,     % color of file links
+	urlcolor=blue         
+}
+
+%% Define a new 'leo' style for the package that will use a smaller font.
+\makeatletter
+\def\url@leostyle{%
+	\@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+%\usepackage{cleveref}
+
+%opening
+\title{\textbf{STAT 605: Project Proposal}}
+\author{\textbf{Kou Wang} \\ kwang432  \\ \and  \textbf{Shushu Zhang} \\ szhang695 \and \textbf{Xinyue Wang} \\ xwang2438 \and \textbf{Yiqun Xiao} \\ yxiao85 \and \textbf{Sixu Li} \\ sli739}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+\section{Introduction}
+We are working on a subset of Amazon movie review data in this first draft, with 4699 observations and 10 variables. We are interested in \textit{mining which words have strong relationships to the five star rating and which ones highly correlate to the negative reviews.} Therefore, among the 10 variables, we mainly explore the relationship between user review texts and review scores. In achieving this goal, we first use some natural language processing (NLP) techniques, such as Document-Term Matrix (DTM) representation, TF-IDF to clean the data. Then, we use regularized lasso logistic regression to fit the model with cross-validation. We implement the code in R and run the code on slurm (HPC). As a result, we select top 30 positive and negative words based on significance. 
+ 
+\section{Statistical Analysis}
+\label{sec:2}
+%In this section, we provide detailed narratives of the process of data analysis. We first clean and extract useful information for the text data in \Cref{subsec:Cleaning}, and then use lasso to reduce the high dimension of the text data in \Cref{subsec:lasso}, and use regression to fit proper model in \Cref{subsec:mod}. 
+
+\subsection{Data Description \& Data Cleaning}
+\label{subsec:Cleaning}
+The web data is provided by Jure Leskovec, an associate professor from Stanford University. It's a data set containing about 35 million reviews from Amazon. The corresponding time spans from June 1995 to March 2013, a period of 18 years. The size of whole data set is 11 gigabtyes and it is available on website \href{http://snap.stanford.edu/data/web-Amazon-links.html}{Amazon reviews}. In this first draft, we focus on the products of movie industry, and perform data analysis on a subset with 4699 reviews to try out before handling the whole data set. We mainly focus on user review texts and review scores (on a 1-5 scale).
+
+In order to extract useful information from the reviews, we need to preprocess the text data using NLP techniques. We (1) transform the target reviews to corpus; (2) change to lower case; (3) remove all the numbers; (4) remove all the stop words; (5) strip whitespace;  (6) remove punctuation; (7) change to Document-Term Matrix (DTM) representation (i.e., reviews as rows, and words as columns, frequencies of the occurance of a word for each text review as values of the matrix); (8) remove sparse terms from a Term-Document Matrix with 0.99 threshold (i.e., remove all the words that occur less than 1\% of the number of the words) ; (9) use TF-IDF (Term Frequency-Inverse Document Frequency) to transform the matrix (with details filled below); (10) obtain binary response variable by replace all the review scores of 4,5 to 1, and 1,2,3 to 0; (11) use bigram frequencies; (12) split training and test data. 
+
+Here are some details about TF-IDF. For DTM, if a word occurs more often than others in general, it is more likely to occur more frequently in a review, such as "movie" in our case, which is unfair to other words. Therefore, we use TF-IDF (Term Frequency-Inverse Document Frequency) to offset these effects. TF-IDF can be mathematically characterized by 
+\begin{equation}
+\begin{aligned}
+TF(\omega,t)&=\frac{\mathrm{\#\omega~in~t}}{\mathrm{\#words~in~t}}\\
+IDF(\omega,t)&=log(\frac{\mathrm{\#words~in~t}}{\mathrm{\#reviews~that~contains~\omega}})\\
+TFIDF(\omega,t) &= TF(\omega,t)*IDF(\omega,t)
+\end{aligned}
+\end{equation}
+where $\omega$ is a word and $t$ represents a review. 
+
+\subsection{}
+
+
+\section{Conclusion}
+
+
+
+\section{Statistical methods}
+In this project, we will be faced with high dimensional data given by customers' reviews. We are planning to adapt some traditional regression methods like logistic regression to deal with this problem. At the same time, we may also try to use methods based on machine learning. For example, it is reasonable to use some technics in Natural Language Processing (NLP) such as sentiment analysis for this task. We are looking for a model which is able to identify words that are strongly related to ratings and finally give a statistical summary indicating the advantages and disadvantages of a product or business (See project goal in Section \ref{sec: project goal}). We are still exploring more possible ways to build up the model and looking for a better method. These are our preliminary thoughts.
+
+%\bibliographystyle{acm}
+%\bibliography{ref}
+\end{document}
